@@ -42,11 +42,13 @@ class AlienInvasion:
             self._update_screen()
             # Run the game at 60 fps
             self.clock.tick(60)
+            print(self._check_events)
 
     # helper method to refactor the code
     def _check_events(self):
         """Responds to key presses and mouse events"""
         for event in pygame.event.get():
+            print(event)
             # if player clicks the windows close button sys.exit() will exit the game
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -57,6 +59,7 @@ class AlienInvasion:
             # if user stops pressing right-left key ship will stop moving (KEYUP events)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
+
 
     # Helper method to check when keys are being pressed
     def _check_keydown_events(self, event):
