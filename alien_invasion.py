@@ -27,6 +27,8 @@ class AlienInvasion:
         while True:
             # Call to helper method _check_events:
             self._check_events()
+            # Checks if user is pressing right arrow key (from ship.py)
+            self.ship.update()
             # Call to helper method _update_screen:
             self._update_screen()
             # Run the game at 60 fps
@@ -39,6 +41,19 @@ class AlienInvasion:
             # if player clicks the windows close button sys.exit() will exit the game
             if event.type == pygame.QUIT:
                 sys.exit()
+            # Check if user clicks the right arrow key (KEYDOWN event)
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    self.ship.moving_right = True
+                elif event.key == pygame.K_LEFT:
+                    self.ship.moving_left = True
+
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    self.ship.moving_right = False
+                elif event.key == pygame.K_LEFT:
+                    self.ship.moving_left = False
+
 
     def _update_screen(self):
         """update images on the screen, and flip to the new screen"""
