@@ -1,8 +1,10 @@
 import sys
+
 import pygame
 
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 
 class AlienInvasion:
@@ -31,6 +33,9 @@ class AlienInvasion:
         # instance of ship file
         self.ship = Ship(self)
 
+        # instance of bullets file
+        self.bullets = pygame.sprite.Group()
+
     def run_game(self):
         """start the main loop for the game."""
         while True:
@@ -38,11 +43,12 @@ class AlienInvasion:
             self._check_events()
             # Checks if user is pressing right arrow key (from ship.py)
             self.ship.update()
+            # update position of bullets
+            self.bullets.update()
             # Call to helper method _update_screen:
             self._update_screen()
             # Run the game at 60 fps
             self.clock.tick(60)
-            print(self._check_events)
 
     # helper method to refactor the code
     def _check_events(self):
@@ -59,7 +65,6 @@ class AlienInvasion:
             # if user stops pressing right-left key ship will stop moving (KEYUP events)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
-
 
     # Helper method to check when keys are being pressed
     def _check_keydown_events(self, event):
@@ -79,7 +84,6 @@ class AlienInvasion:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
-
 
     def _update_screen(self):
         """update images on the screen, and flip to the new screen"""
