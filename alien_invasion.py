@@ -36,6 +36,7 @@ class AlienInvasion:
         # instance of bullets file
         self.bullets = pygame.sprite.Group()
 
+    # Method to run the game
     def run_game(self):
         """start the main loop for the game."""
         while True:
@@ -43,8 +44,7 @@ class AlienInvasion:
             self._check_events()
             # Checks if user is pressing right arrow key (from ship.py)
             self.ship.update()
-            # update position of bullets
-            self.bullets.update()
+            self._update_bullets()
             # Call to helper method _update_screen:
             self._update_screen()
             # Run the game at 60 fps
@@ -76,6 +76,8 @@ class AlienInvasion:
         # If player presses q, game quits
         elif event.key == pygame.K_q:
             sys.exit()
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
 
     # Helper method to check when keys are released
     def _check_keyup_events(self, event):
@@ -85,10 +87,31 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
 
+    # Helper method to create bullets
+    def _fire_bullet(self):
+        """Create a new bullet and add it to the bullets group."""
+        if len(self.bullets) < self.settings.bullets_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
+
+    # Helper method to update bullets position
+    def _update_bullets(self):
+        """Update position of bullets and get rid of old bullets"""
+        # Update bullet position
+        self.bullets.update()
+
+        # Get rid of bullets that have disappeared to save memory
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
+
+    # Helper method to update the images on the screen
     def _update_screen(self):
         """update images on the screen, and flip to the new screen"""
         # Fills the color of the pygame window
         self.screen.fill(self.settings.bg_color)
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
         # Draw the ship to the screen
         self.ship.blitme()
         # make the most recently drawn screen visible, (updates the display)
