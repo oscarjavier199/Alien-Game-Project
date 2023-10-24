@@ -8,7 +8,7 @@ class Ship:
         self.screen = ai_game.screen
         self.settings = ai_game.settings
 
-        # We access screen's rect attribute using get_rect()
+        # We access screen's rect attribute using get_rect().
         self.screen_rect = ai_game.screen.get_rect()
 
         # Load the ship image and its rectangle (rect)
